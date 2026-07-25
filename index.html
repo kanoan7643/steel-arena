@@ -2,7 +2,13 @@
 <html lang="zh-Hant">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <title>鋼鐵擂台 | STEEL ARENA</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -36,7 +42,21 @@
         <div id="hit-marker"></div>
         <div id="hit-flash"></div>
         <div id="combo"></div>
-        <div id="hint">抬頭上鉤 · 平視直拳 · 低頭下鉤 · 左鍵/Q 左拳 · 右鍵/E 右拳 · 空白格擋</div>
+        <div id="hint" class="hint-desktop">抬頭上鉤 · 平視直拳 · 低頭下鉤 · 左鍵/Q 左拳 · 右鍵/E 右拳 · 空白格擋</div>
+        <div id="hint-mobile" class="hint-mobile hidden">左搖桿移動 · 右側滑動瞄準 · 抬頭上鉤 / 平視直拳 / 低頭下鉤</div>
+      </div>
+
+      <div id="touch-controls" class="hidden" aria-hidden="true">
+        <div id="touch-stick" class="touch-stick">
+          <div id="touch-stick-knob" class="touch-stick-knob"></div>
+        </div>
+        <div id="touch-look" class="touch-look"></div>
+        <div class="touch-actions">
+          <button type="button" id="touch-sprint" class="touch-btn touch-sprint">衝刺</button>
+          <button type="button" id="touch-block" class="touch-btn touch-block">格擋</button>
+          <button type="button" id="touch-punch-l" class="touch-btn touch-punch">左拳</button>
+          <button type="button" id="touch-punch-r" class="touch-btn touch-punch">右拳</button>
+        </div>
       </div>
 
       <div id="title-screen">
@@ -55,13 +75,20 @@
             </div>
           </div>
           <button id="start-btn" type="button">進入擂台</button>
-          <ul class="controls">
+          <ul class="controls controls-desktop">
             <li><kbd>W A S D</kbd> 移動</li>
             <li><kbd>滑鼠</kbd> 抬頭上鉤拳 · 平視直拳 · 低頭下鉤拳</li>
             <li><kbd>左鍵 / Q</kbd> 左拳（拳頭會掃過準心）</li>
             <li><kbd>右鍵 / E</kbd> 右拳</li>
             <li><kbd>空白鍵</kbd> 格擋（雙臂交叉擋臉）</li>
             <li><kbd>Shift</kbd> 衝刺</li>
+          </ul>
+          <ul class="controls controls-mobile">
+            <li><kbd>左搖桿</kbd> 移動</li>
+            <li><kbd>右側滑動</kbd> 抬頭上鉤 · 平視直拳 · 低頭下鉤</li>
+            <li><kbd>左拳 / 右拳</kbd> 出拳</li>
+            <li><kbd>格擋</kbd> 雙臂交叉擋臉</li>
+            <li><kbd>衝刺</kbd> 加速貼近</li>
           </ul>
         </div>
       </div>

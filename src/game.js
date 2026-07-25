@@ -4,6 +4,7 @@ import { Player } from './player.js';
 import { Enemy } from './enemy.js';
 import { Sfx } from './sfx.js';
 import { DIFFICULTIES } from './config.js';
+import { prefersTouch, TouchControls } from './touch.js';
 
 const ZONE_LABEL = { head: '頭部', body: '軀幹', legs: '下盤' };
 const STYLE_LABEL = { uppercut: '上鉤拳', straight: '直拳', hook: '下鉤拳' };
@@ -47,6 +48,8 @@ export class Game {
     this.arena = createArena(this.scene);
     this.player = new Player(this.camera);
     this.player.enablePointerLock(canvas);
+    this.touchMode = prefersTouch();
+    this.touch = new TouchControls(this.player);
     this.enemy = new Enemy(this.scene);
 
     this.sparks = this.#createSparks();
@@ -147,7 +150,7 @@ export class Game {
     this.ui.result.classList.add('hidden');
     this.ui.hud.classList.remove('hidden');
     this.restart(false);
-    this.canvas.requestPointerLock();
+    if (!this.touchMode) this.canvas.requestPointerLock();
   }
 
   setDifficulty(id) {
@@ -172,7 +175,8 @@ export class Game {
     this.ui.round.textContent = `ROUND ${this.round}`;
     this.ui.hitMarker.classList.remove('show');
     this.clock.start();
-    if (requestLock) this.canvas.requestPointerLock();
+    this.touch.setActive(this.touchMode);
+    if (requestLock && !this.touchMode) this.canvas.requestPointerLock();
     this.#loop();
   }
 
@@ -185,6 +189,7 @@ export class Game {
     this.player.visible = false;
     this.player.blocking = false;
     this.player.punchAnim.active = false;
+    this.touch.setActive(false);
     document.exitPointerLock?.();
     this.ui.result.classList.add('hidden');
     this.ui.hud.classList.add('hidden');
@@ -194,12 +199,14 @@ export class Game {
   }
 
   resize() {
-    const w = window.innerWidth;
-    const h = window.innerHeight;
+    // innerWidth/Height track 100dvh + iOS rotation; safe-area is handled in CSS
+    const w = Math.max(1, window.innerWidth);
+    const h = Math.max(1, window.innerHeight);
     this.camera.aspect = w / h;
     this.camera.updateProjectionMatrix();
     this.player.viewCamera.aspect = w / Math.max(1, h);
     this.player.viewCamera.updateProjectionMatrix();
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     this.renderer.setSize(w, h);
   }
 
@@ -323,6 +330,7 @@ export class Game {
     this.finishing = false;
     this.ended = true;
     this.running = false;
+    this.touch.setActive(false);
     document.exitPointerLock?.();
     const { won, sub } = this.pendingResult;
     this.ui.result.classList.remove('hidden');
