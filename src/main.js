@@ -31,15 +31,24 @@ document.getElementById('menu-btn').addEventListener('click', () => {
   game.goToMenu();
 });
 
-window.addEventListener('resize', () => game.resize());
+const onViewportChange = () => game.resize();
+window.addEventListener('resize', onViewportChange);
+window.addEventListener('orientationchange', () => {
+  // iOS often reports the old size until the rotation settles
+  setTimeout(onViewportChange, 120);
+  setTimeout(onViewportChange, 320);
+});
+window.visualViewport?.addEventListener('resize', onViewportChange);
+window.visualViewport?.addEventListener('scroll', onViewportChange);
+game.resize();
 
-// Reduce browser chrome gestures interrupting fights on phones
+// Block page scroll / bounce while fighting on phones
 document.addEventListener(
   'touchmove',
   (e) => {
-    if (document.body.classList.contains('touch-ui') && e.target.closest('#touch-controls')) {
-      e.preventDefault();
-    }
+    if (!document.body.classList.contains('touch-ui')) return;
+    if (e.target.closest('#title-screen, #result-screen')) return;
+    e.preventDefault();
   },
   { passive: false },
 );

@@ -199,12 +199,14 @@ export class Game {
   }
 
   resize() {
-    const w = window.innerWidth;
-    const h = window.innerHeight;
+    // innerWidth/Height track 100dvh + iOS rotation; safe-area is handled in CSS
+    const w = Math.max(1, window.innerWidth);
+    const h = Math.max(1, window.innerHeight);
     this.camera.aspect = w / h;
     this.camera.updateProjectionMatrix();
     this.player.viewCamera.aspect = w / Math.max(1, h);
     this.player.viewCamera.updateProjectionMatrix();
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     this.renderer.setSize(w, h);
   }
 

@@ -7,6 +7,15 @@
   --danger: #ff2d55;
   --ok: #3dffa8;
   --panel: rgba(10, 14, 20, 0.78);
+  /* iPhone 14 Pro Max-class safe gutters (Dynamic Island + home bar) */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --touch-stick: 7.25rem;
+  --touch-btn: 4.25rem;
+  --hud-pad-x: 1.25rem;
+  --hud-pad-y: 1.25rem;
 }
 
 * {
@@ -16,17 +25,28 @@
 }
 
 html,
-body,
-#app {
+body {
   width: 100%;
   height: 100%;
+  height: 100dvh;
   overflow: hidden;
+  overscroll-behavior: none;
   background: #05070a;
   color: var(--frost);
   font-family: "Noto Sans TC", sans-serif;
   touch-action: none;
   -webkit-user-select: none;
   user-select: none;
+  -webkit-text-size-adjust: 100%;
+}
+
+#app {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  height: 100dvh;
+  overflow: hidden;
 }
 
 #game {
@@ -49,9 +69,9 @@ body,
 
 .bars {
   position: absolute;
-  top: 1.25rem;
-  left: 1.25rem;
-  right: 1.25rem;
+  top: calc(var(--hud-pad-y) + var(--safe-top));
+  left: calc(var(--hud-pad-x) + var(--safe-left));
+  right: calc(var(--hud-pad-x) + var(--safe-right));
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   gap: 1rem;
@@ -266,10 +286,10 @@ body,
 .touch-stick {
   pointer-events: auto;
   position: absolute;
-  left: max(1rem, env(safe-area-inset-left));
-  bottom: max(1.2rem, env(safe-area-inset-bottom));
-  width: 7.5rem;
-  height: 7.5rem;
+  left: calc(0.9rem + var(--safe-left));
+  bottom: calc(0.9rem + var(--safe-bottom));
+  width: var(--touch-stick);
+  height: var(--touch-stick);
   border-radius: 50%;
   border: 1px solid rgba(142, 160, 176, 0.4);
   background: rgba(8, 12, 18, 0.35);
@@ -280,9 +300,9 @@ body,
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 2.6rem;
-  height: 2.6rem;
-  margin: -1.3rem 0 0 -1.3rem;
+  width: 36%;
+  height: 36%;
+  margin: -18% 0 0 -18%;
   border-radius: 50%;
   background: rgba(215, 226, 236, 0.28);
   border: 1px solid rgba(255, 90, 42, 0.55);
@@ -292,28 +312,28 @@ body,
 .touch-look {
   pointer-events: auto;
   position: absolute;
-  top: 18%;
-  right: 0;
-  width: 55%;
-  height: 55%;
+  top: calc(22% + var(--safe-top) * 0.15);
+  right: var(--safe-right);
+  width: 58%;
+  height: 48%;
   touch-action: none;
 }
 
 .touch-actions {
   pointer-events: none;
   position: absolute;
-  right: max(0.75rem, env(safe-area-inset-right));
-  bottom: max(1rem, env(safe-area-inset-bottom));
+  right: calc(0.75rem + var(--safe-right));
+  bottom: calc(0.85rem + var(--safe-bottom));
   display: grid;
-  grid-template-columns: repeat(2, 4.4rem);
-  gap: 0.55rem;
+  grid-template-columns: repeat(2, var(--touch-btn));
+  gap: 0.5rem;
 }
 
 .touch-btn {
   pointer-events: auto;
   appearance: none;
-  width: 4.4rem;
-  height: 4.4rem;
+  width: var(--touch-btn);
+  height: var(--touch-btn);
   border-radius: 50%;
   border: 1px solid rgba(142, 160, 176, 0.45);
   background: rgba(10, 14, 20, 0.55);
@@ -353,16 +373,16 @@ body.touch-ui .controls-mobile {
 }
 
 body.touch-ui #hint-mobile {
-  bottom: 10.5rem;
+  bottom: calc(var(--touch-stick) + var(--safe-bottom) + 1.6rem);
   white-space: normal;
   text-align: center;
-  width: min(92vw, 22rem);
+  width: min(88vw, 20rem);
 }
 
 body.touch-ui #combo {
   right: auto;
-  left: 1.25rem;
-  bottom: 10.5rem;
+  left: calc(var(--hud-pad-x) + var(--safe-left));
+  bottom: calc(var(--touch-stick) + var(--safe-bottom) + 1.6rem);
 }
 
 #title-screen,
@@ -574,47 +594,233 @@ h1 {
   }
 }
 
+/* Phones in general — keep HUD as one compact row (not stacked) */
 @media (max-width: 720px) {
+  :root {
+    --hud-pad-x: 0.75rem;
+    --hud-pad-y: 0.55rem;
+    --touch-stick: 6.75rem;
+    --touch-btn: 3.85rem;
+  }
+
   .bars {
-    grid-template-columns: 1fr;
-    gap: 0.55rem;
+    gap: 0.45rem;
+  }
+
+  .bar-block .bar-label {
+    font-size: 0.65rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .bar-track {
+    height: 11px;
   }
 
   .round-chip {
-    order: -1;
-    justify-self: center;
+    min-width: 4.8rem;
+    padding: 0.35rem 0.55rem;
+  }
+
+  #round-text {
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+  }
+
+  #timer {
+    font-size: 1.45rem;
+  }
+
+  #aim-zone {
+    font-size: 0.82rem;
+    letter-spacing: 0.18em;
   }
 
   #hint,
   #hint-mobile {
     white-space: normal;
     text-align: center;
-    width: min(92vw, 24rem);
-    font-size: 0.7rem;
+    width: min(88vw, 22rem);
+    font-size: 0.68rem;
   }
 
-  body:not(.touch-ui) .controls {
+  body:not(.touch-ui) .controls-desktop {
     display: none;
   }
 
-  .title-content {
-    padding: 1.5rem 1.1rem;
-    max-height: 100%;
+  .title-content,
+  .result-card {
+    width: min(100%, 26rem);
+    max-width: none;
+    max-height: calc(100dvh - var(--safe-top) - var(--safe-bottom) - 1rem);
+    padding: calc(0.85rem + var(--safe-top)) 1rem calc(0.85rem + var(--safe-bottom));
     overflow: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
-  .touch-stick {
-    width: 6.6rem;
-    height: 6.6rem;
+  h1 {
+    font-size: clamp(2.6rem, 14vw, 3.8rem);
   }
 
-  .touch-actions {
-    grid-template-columns: repeat(2, 3.9rem);
+  .subtitle {
+    font-size: 1.05rem;
+    letter-spacing: 0.28em;
+  }
+
+  .tagline {
+    margin: 0.85rem 0 0.9rem;
+    font-size: 0.92rem;
+  }
+
+  .difficulty {
+    margin-bottom: 1rem;
+  }
+
+  .controls {
+    margin-top: 1.1rem;
+    font-size: 0.78rem;
   }
 
   .touch-btn {
-    width: 3.9rem;
-    height: 3.9rem;
-    font-size: 0.72rem;
+    font-size: 0.7rem;
+  }
+
+  #combo {
+    font-size: 1.8rem;
+  }
+}
+
+/*
+ * iPhone 14 Pro Max portrait: 430 × 932 CSS px
+ * Dynamic Island ~59px top, home indicator ~34px bottom
+ */
+@media (max-width: 440px) and (min-height: 800px) {
+  :root {
+    --hud-pad-x: 0.7rem;
+    --hud-pad-y: 0.4rem;
+    --touch-stick: 6.4rem;
+    --touch-btn: 3.7rem;
+  }
+
+  .bars {
+    gap: 0.35rem;
+  }
+
+  .touch-look {
+    top: calc(18% + var(--safe-top));
+    right: 0;
+    width: 56%;
+    height: 46%;
+  }
+
+  .touch-actions {
+    gap: 0.42rem;
+  }
+
+  body.touch-ui #hint-mobile {
+    bottom: calc(var(--touch-stick) + var(--safe-bottom) + 1.25rem);
+    font-size: 0.64rem;
+  }
+
+  .controls-mobile li {
+    text-align: left;
+  }
+
+  .controls-mobile kbd {
+    min-width: 3.6rem;
+  }
+}
+
+/*
+ * iPhone 14 Pro Max landscape: 932 × 430 CSS px
+ * Side safe areas ~59px for island/notch, bottom ~21px
+ */
+@media (orientation: landscape) and (max-height: 500px) {
+  :root {
+    --hud-pad-x: 0.55rem;
+    --hud-pad-y: 0.3rem;
+    --touch-stick: 5.6rem;
+    --touch-btn: 3.35rem;
+  }
+
+  .bars {
+    gap: 0.55rem;
+    max-width: 42rem;
+    margin: 0 auto;
+    left: calc(1rem + var(--safe-left));
+    right: calc(1rem + var(--safe-right));
+  }
+
+  .bar-track {
+    height: 10px;
+  }
+
+  #timer {
+    font-size: 1.25rem;
+  }
+
+  .round-chip {
+    min-width: 4.2rem;
+    padding: 0.25rem 0.45rem;
+  }
+
+  .touch-stick {
+    left: calc(0.65rem + var(--safe-left));
+    bottom: calc(0.55rem + var(--safe-bottom));
+  }
+
+  .touch-actions {
+    right: calc(0.55rem + var(--safe-right));
+    bottom: calc(0.5rem + var(--safe-bottom));
+    gap: 0.38rem;
+  }
+
+  .touch-look {
+    top: calc(16% + var(--safe-top));
+    right: var(--safe-right);
+    width: 50%;
+    height: 58%;
+  }
+
+  .touch-btn {
+    font-size: 0.64rem;
+  }
+
+  body.touch-ui #hint-mobile {
+    display: none;
+  }
+
+  body.touch-ui #combo {
+    left: calc(0.8rem + var(--safe-left));
+    bottom: calc(var(--touch-stick) + var(--safe-bottom) + 0.7rem);
+    font-size: 1.55rem;
+  }
+
+  .title-content,
+  .result-card {
+    max-height: calc(100dvh - 0.5rem);
+    padding: 0.55rem 1.25rem;
+  }
+
+  h1 {
+    font-size: clamp(2.2rem, 8vh, 3.2rem);
+  }
+
+  .tagline {
+    margin: 0.45rem 0 0.55rem;
+  }
+
+  .controls {
+    display: none;
+  }
+
+  .difficulty {
+    margin-bottom: 0.65rem;
+  }
+
+  #start-btn,
+  #retry-btn,
+  #menu-btn {
+    padding: 0.7rem 1.6rem;
+    font-size: 0.95rem;
   }
 }
