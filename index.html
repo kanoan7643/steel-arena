@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>鋼鐵擂台 | STEEL ARENA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+TC:wght@500;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <canvas id="game"></canvas>
+
+      <div id="hud" class="hidden">
+        <div class="bars">
+          <div class="bar-block you">
+            <div class="bar-label">你</div>
+            <div class="bar-track"><div id="player-hp" class="bar-fill"></div></div>
+          </div>
+          <div class="round-chip">
+            <span id="round-text">ROUND 1</span>
+            <span id="timer">99</span>
+          </div>
+          <div class="bar-block foe">
+            <div class="bar-label">鋼鐵拳王</div>
+            <div class="bar-track"><div id="enemy-hp" class="bar-fill"></div></div>
+          </div>
+        </div>
+        <div id="crosshair"></div>
+        <div id="aim-zone">軀幹</div>
+        <div id="hit-marker"></div>
+        <div id="hit-flash"></div>
+        <div id="combo"></div>
+        <div id="hint">抬頭上鉤 · 平視直拳 · 低頭下鉤 · 左鍵/Q 左拳 · 右鍵/E 右拳 · 空白格擋</div>
+      </div>
+
+      <div id="title-screen">
+        <div class="title-bg"></div>
+        <div class="title-content">
+          <p class="eyebrow">FIRST-PERSON MELEE</p>
+          <h1>鋼鐵擂台</h1>
+          <p class="subtitle">STEEL ARENA</p>
+          <p class="tagline">踏入鐵籠。打到只剩一個站著。</p>
+          <div class="difficulty" role="group" aria-label="難度">
+            <p class="diff-label">難度</p>
+            <div class="diff-options">
+              <button type="button" class="diff-btn active" data-diff="easy">簡單</button>
+              <button type="button" class="diff-btn" data-diff="normal">普通</button>
+              <button type="button" class="diff-btn" data-diff="hard">困難</button>
+            </div>
+          </div>
+          <button id="start-btn" type="button">進入擂台</button>
+          <ul class="controls">
+            <li><kbd>W A S D</kbd> 移動</li>
+            <li><kbd>滑鼠</kbd> 抬頭上鉤拳 · 平視直拳 · 低頭下鉤拳</li>
+            <li><kbd>左鍵 / Q</kbd> 左拳（拳頭會掃過準心）</li>
+            <li><kbd>右鍵 / E</kbd> 右拳</li>
+            <li><kbd>空白鍵</kbd> 格擋（雙臂交叉擋臉）</li>
+            <li><kbd>Shift</kbd> 衝刺</li>
+          </ul>
+        </div>
+      </div>
+
+      <div id="result-screen" class="hidden">
+        <div class="result-card">
+          <h2 id="result-title">勝利</h2>
+          <p id="result-sub">對手倒地。鐵籠為你喝采。</p>
+          <div class="result-actions">
+            <button id="retry-btn" type="button">再戰一場</button>
+            <button id="menu-btn" type="button" class="btn-secondary">回選單</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
