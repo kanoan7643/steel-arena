@@ -29,6 +29,11 @@ export class Player {
 
     this.keys = new Set();
     this.pointerLocked = false;
+    this.touchEnabled = false;
+    this.touchMoveX = 0;
+    this.touchMoveY = 0;
+    this.touchBlock = false;
+    this.touchSprint = false;
 
     // --- Separate viewmodel pass (always drawn on top) ---
     this.viewScene = new THREE.Scene();
@@ -153,6 +158,7 @@ export class Player {
 
   enablePointerLock(canvas) {
     canvas.addEventListener('click', () => {
+      if (this.touchEnabled) return;
       if (!this.pointerLocked) canvas.requestPointerLock();
     });
     document.addEventListener('pointerlockchange', () => {
@@ -160,15 +166,20 @@ export class Player {
     });
   }
 
+  /** Desktop: pointer lock. Mobile: touch overlay drives look / move. */
+  get controlsActive() {
+    return this.touchEnabled || this.pointerLocked;
+  }
+
   #onMouseMove(e) {
-    if (!this.pointerLocked || this.knocked) return;
+    if (this.touchEnabled || !this.pointerLocked || this.knocked) return;
     this.yaw -= e.movementX * 0.0022;
     this.pitch -= e.movementY * 0.002;
     this.pitch = Math.max(-1.2, Math.min(1.2, this.pitch));
   }
 
   #onMouseDown(e) {
-    if (!this.pointerLocked || !this.alive || this.knocked) return;
+    if (this.touchEnabled || !this.pointerLocked || !this.alive || this.knocked) return;
     if (e.button === 0) this.tryPunch(-1);
     if (e.button === 2) this.tryPunch(1);
   }
@@ -405,6 +416,10 @@ export class Player {
     this.punchAnim.active = false;
     this.visible = true;
     this.keys.clear();
+    this.touchMoveX = 0;
+    this.touchMoveY = 0;
+    this.touchBlock = false;
+    this.touchSprint = false;
     for (const arm of [this.leftArm, this.rightArm]) {
       this.#applyPose(arm, arm.userData.rest);
     }
@@ -437,7 +452,7 @@ export class Player {
     if (this.knocked) return this.#updateKnockdown(dt);
     if (!this.alive) return false;
 
-    this.blocking = this.keys.has('Space');
+    this.blocking = this.keys.has('Space') || this.touchBlock;
     this.punchCooldown = Math.max(0, this.punchCooldown - dt);
     this.invuln = Math.max(0, this.invuln - dt);
     this.comboTimer = Math.max(0, this.comboTimer - dt);
@@ -459,9 +474,15 @@ export class Player {
     if (this.keys.has('KeyS')) wish.sub(forward);
     if (this.keys.has('KeyD')) wish.add(right);
     if (this.keys.has('KeyA')) wish.sub(right);
+    // Virtual stick: Y- = forward, X+ = strafe right
+    if (this.touchEnabled && (Math.abs(this.touchMoveX) > 0.12 || Math.abs(this.touchMoveY) > 0.12)) {
+      wish.addScaledVector(forward, -this.touchMoveY);
+      wish.addScaledVector(right, this.touchMoveX);
+    }
     if (wish.lengthSq() > 0) wish.normalize();
 
-    const sprint = this.keys.has('ShiftLeft') || this.keys.has('ShiftRight');
+    const sprint =
+      this.keys.has('ShiftLeft') || this.keys.has('ShiftRight') || this.touchSprint;
     const speed = this.speed * (sprint ? this.sprintMul : 1) * (this.blocking ? 0.45 : 1);
     this.velocity.lerp(wish.multiplyScalar(speed), 1 - Math.pow(0.001, dt));
     this.position.addScaledVector(this.velocity, dt);
