@@ -1,3 +1,12 @@
+// Self-hosted fonts (bundled) — avoid Google Fonts which AdGuard often blocks
+import '@fontsource/bebas-neue/latin-400.css';
+import '@fontsource/noto-sans-tc/chinese-traditional-500.css';
+import '@fontsource/noto-sans-tc/chinese-traditional-700.css';
+import '@fontsource/noto-sans-tc/chinese-traditional-900.css';
+import '@fontsource/noto-sans-tc/latin-500.css';
+import '@fontsource/noto-sans-tc/latin-700.css';
+import '@fontsource/noto-sans-tc/latin-900.css';
+
 import { Game } from './game.js';
 import { prefersTouch } from './touch.js';
 
