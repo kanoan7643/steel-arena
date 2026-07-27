@@ -46,10 +46,43 @@
         </div>
         <div id="touch-look" class="touch-look"></div>
         <div class="touch-actions">
-          <button type="button" id="touch-sprint" class="touch-btn touch-sprint">衝刺</button>
-          <button type="button" id="touch-block" class="touch-btn touch-block">格擋</button>
-          <button type="button" id="touch-punch-l" class="touch-btn touch-punch">左拳</button>
-          <button type="button" id="touch-punch-r" class="touch-btn touch-punch">右拳</button>
+          <button type="button" id="touch-sprint" class="touch-btn touch-dodge" aria-label="閃避">
+            <svg class="touch-ico" viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M4 12h10M14 12l-3.2-3.2M14 12l-3.2 3.2M20 7v10"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+          <button type="button" id="touch-block" class="touch-btn touch-block" aria-label="格擋">
+            <svg class="touch-ico" viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M12 3l7 3v5.2c0 4.3-2.8 7.4-7 9.3-4.2-1.9-7-5-7-9.3V6l7-3z"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+          <button type="button" id="touch-punch-l" class="touch-btn touch-punch-l" aria-label="左拳">
+            <svg class="touch-ico" viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3.5" y="8" width="12" height="9" rx="2.2" fill="currentColor" opacity="0.92" />
+              <path d="M15.5 10.2h3.2c1.2 0 2.3 1 2.3 2.3v2c0 1.3-1.1 2.3-2.3 2.3H15.5" fill="currentColor" opacity="0.75" />
+              <path d="M6 8V6.4c0-.8.6-1.4 1.4-1.4h4.2c.8 0 1.4.6 1.4 1.4V8" fill="currentColor" opacity="0.7" />
+            </svg>
+          </button>
+          <button type="button" id="touch-punch-r" class="touch-btn touch-punch-r" aria-label="右拳">
+            <svg class="touch-ico touch-ico-flip" viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3.5" y="8" width="12" height="9" rx="2.2" fill="currentColor" opacity="0.92" />
+              <path d="M15.5 10.2h3.2c1.2 0 2.3 1 2.3 2.3v2c0 1.3-1.1 2.3-2.3 2.3H15.5" fill="currentColor" opacity="0.75" />
+              <path d="M6 8V6.4c0-.8.6-1.4 1.4-1.4h4.2c.8 0 1.4.6 1.4 1.4V8" fill="currentColor" opacity="0.7" />
+            </svg>
+          </button>
         </div>
       </div>
 
@@ -82,7 +115,7 @@
             <li><kbd>右側滑動</kbd> 抬頭上鉤 · 平視直拳 · 低頭下鉤</li>
             <li><kbd>左拳 / 右拳</kbd> 出拳</li>
             <li><kbd>格擋</kbd> 雙臂交叉擋臉</li>
-            <li><kbd>衝刺</kbd> 加速貼近</li>
+            <li><kbd>閃避</kbd> 加速拉開／貼近</li>
           </ul>
         </div>
       </div>
