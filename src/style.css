@@ -344,20 +344,74 @@ body {
   letter-spacing: 0.08em;
   touch-action: none;
   -webkit-tap-highlight-color: transparent;
+  display: grid;
+  place-items: center;
+  padding: 0;
+}
+
+.touch-ico {
+  width: 52%;
+  height: 52%;
+  display: block;
+}
+
+.touch-ico-flip {
+  transform: scaleX(-1);
 }
 
 .touch-btn.active,
 .touch-btn:active {
-  border-color: rgba(255, 90, 42, 0.85);
-  background: rgba(255, 90, 42, 0.35);
+  filter: brightness(1.18);
+  transform: scale(0.96);
 }
 
-.touch-punch {
-  border-color: rgba(255, 90, 42, 0.55);
+.touch-punch-l {
+  color: #ffefe8;
+  border-color: rgba(255, 64, 48, 0.9);
+  background: radial-gradient(circle at 35% 30%, rgba(255, 110, 70, 0.55), rgba(160, 24, 18, 0.72));
+  box-shadow: 0 0 0 1px rgba(255, 90, 42, 0.25), 0 8px 18px rgba(180, 20, 10, 0.28);
+}
+
+.touch-punch-l.active,
+.touch-punch-l:active {
+  background: radial-gradient(circle at 35% 30%, rgba(255, 140, 90, 0.7), rgba(200, 30, 20, 0.85));
+}
+
+.touch-punch-r {
+  color: #eef6ff;
+  border-color: rgba(64, 140, 255, 0.9);
+  background: radial-gradient(circle at 35% 30%, rgba(90, 160, 255, 0.55), rgba(24, 60, 160, 0.72));
+  box-shadow: 0 0 0 1px rgba(80, 150, 255, 0.25), 0 8px 18px rgba(20, 50, 160, 0.28);
+}
+
+.touch-punch-r.active,
+.touch-punch-r:active {
+  background: radial-gradient(circle at 35% 30%, rgba(120, 190, 255, 0.7), rgba(30, 80, 200, 0.85));
+}
+
+.touch-dodge {
+  color: #eafff2;
+  border-color: rgba(50, 220, 130, 0.9);
+  background: radial-gradient(circle at 35% 30%, rgba(80, 230, 150, 0.5), rgba(12, 110, 70, 0.72));
+  box-shadow: 0 0 0 1px rgba(60, 210, 130, 0.25), 0 8px 18px rgba(10, 100, 60, 0.28);
+}
+
+.touch-dodge.active,
+.touch-dodge:active {
+  background: radial-gradient(circle at 35% 30%, rgba(120, 255, 180, 0.65), rgba(18, 140, 85, 0.85));
 }
 
 .touch-block {
-  border-color: rgba(158, 199, 255, 0.55);
+  color: #eef3ff;
+  border-color: rgba(170, 190, 220, 0.7);
+  background: radial-gradient(circle at 35% 30%, rgba(160, 180, 210, 0.35), rgba(30, 40, 55, 0.75));
+  box-shadow: 0 0 0 1px rgba(150, 170, 200, 0.18), 0 8px 18px rgba(0, 0, 0, 0.28);
+}
+
+.touch-block.active,
+.touch-block:active {
+  border-color: rgba(200, 220, 255, 0.9);
+  background: radial-gradient(circle at 35% 30%, rgba(190, 210, 240, 0.5), rgba(50, 65, 90, 0.85));
 }
 
 .controls-mobile {
